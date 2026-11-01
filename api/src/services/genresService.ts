@@ -55,3 +55,10 @@ export async function compareGenres(a: string, b: string): Promise<SoundProfile[
   );
   return rows;
 }
+
+export async function listGenres(): Promise<string[]> {
+  const { rows } = await pool.query<{ name: string }>(
+    'SELECT name FROM genres ORDER BY name',
+  );
+  return rows.map((r) => r.name);
+}

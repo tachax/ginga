@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { METRICS, compareGenres, getTopGenres, type Metric } from '../services/genresService.js';
+import { METRICS, compareGenres, getTopGenres, listGenres, type Metric } from '../services/genresService.js';
 
 function isMetric(value: unknown): value is Metric {
   return typeof value === 'string' && (METRICS as readonly string[]).includes(value);
@@ -41,4 +41,9 @@ export async function compareHandler(req: Request, res: Response) {
   }
 
   res.json([first, second]);
+}
+
+export async function listGenresHandler(_req: Request, res: Response) {
+  const genres = await listGenres();
+  res.json(genres);
 }
