@@ -1,0 +1,64 @@
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px 40px;
+  border-radius: 24px;
+  background: #ddf0e1;
+}
+
+.date {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2e7d4f;
+}
+
+.title {
+  margin: 4px 0 8px;
+  font-size: 44px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0 0 24px;
+  color: #557063;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+}
+
+.equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 96px;
+}
+
+.equalizer span {
+  width: 8px;
+  height: 100%;
+  border-radius: 4px;
+  background: #2e7d4f;
+  transform-origin: bottom;
+  animation: bounce 1.2s ease-in-out infinite alternate;
+}
+
+.equalizer span:nth-child(3n + 2) { background: #8cc79c; }
+.equalizer span:nth-child(3n)     { background: #e8955a; }
+
+@keyframes bounce {
+  from { transform: scaleY(0.3); }
+  to   { transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .equalizer span {
+    animation: none;
+    transform: scaleY(0.7);
+  }
+}
