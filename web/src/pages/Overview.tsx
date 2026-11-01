@@ -8,6 +8,7 @@ import { TopGenresChart } from '../components/charts/TopGenresChart';
 import { MoodMapChart } from '../components/charts/MoodMapChart';
 import { TempoChart } from '../components/charts/TempoChart';
 import { SoundProfileChart } from '../components/charts/SoundProfileChart';
+import { SoundProfileCard } from '../components/SoundProfileCard';
 
 export function Overview() {
   const { data, loading, error } = useApi<Summary>('/api/stats/summary');
@@ -101,14 +102,7 @@ export function Overview() {
         </Col>
 
         <Col xs={24} lg={8}>
-          <ChartCard
-            title="Sound profile"
-            subtitle="samba vs. tango"
-            loading={profile.loading}
-            error={profile.error}
-          >
-            <SoundProfileChart data={profile.data ?? []} />
-          </ChartCard>
+          <SoundProfileCard />
         </Col>
       </Row>
 
