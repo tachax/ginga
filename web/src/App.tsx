@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { ConfigProvider, Layout, type ThemeConfig } from 'antd';
 import { SideMenu, type PageKey } from './components/SideMenu';
 import { HeroHeader } from './components/HeroHeader';
+import { useApi } from './hooks/useApi';
+import type { Summary } from './types';
+import { Overview } from './pages/Overview';
 
 const theme: ThemeConfig = {
   token: {
@@ -22,19 +25,20 @@ const theme: ThemeConfig = {
     },
     Input: { borderRadiusLG: 22 },
     Select: { borderRadiusLG: 22 },
-
+    Card: { borderRadiusLG: 22 },
   },
 };
 
 function App() {
   const [page, setPage] = useState<PageKey>('overview');
+  const summary = useApi<Summary>('/api/stats/summary');
 
   return (
     <ConfigProvider theme={theme}>
       <Layout hasSider style={{ minHeight: '100vh' }}>
         <SideMenu page={page} onChange={setPage} />
         <Layout.Content style={{ padding: '24px 24px 24px 0' }}>
-          {page === 'overview' ? <HeroHeader /> : <p>Coming soon: {page}</p>}
+          {page === 'overview' ? <Overview /> : <p>Coming soon: {page}</p>}
         </Layout.Content>
       </Layout>
     </ConfigProvider>

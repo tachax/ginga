@@ -1,0 +1,24 @@
+.card {
+  height: 100%;
+}
+
+.label {
+  font-size: 14px;
+  color: #557063;
+}
+
+.value {
+  margin: 6px 0 4px;
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.suffix {
+  font-size: 18px;
+  color: #557063;
+}
+
+.hint {
+  font-size: 13px;
+  color: #557063;
+}
