@@ -22,7 +22,7 @@ const theme: ThemeConfig = {
     },
     Input: { borderRadiusLG: 22 },
     Select: { borderRadiusLG: 22 },
-    Card: { borderRadiusLG: 22 },
+    Card: { borderRadiusLG: 22, headerFontSize: 20 },
   },
 };
 

@@ -33,3 +33,21 @@ export type SoundProfile = {
   liveness: number;
   speechiness: number;
 };
+
+export type Track = {
+  id: string;
+  name: string;
+  artists: string;
+  genres: string[];
+  danceability: number;
+  energy: number;
+  tempo: number;
+  popularity: number;
+};
+
+export type TrackPage = {
+  items: Track[];
+  total: number;
+  page: number;
+  pageSize: number;
+};

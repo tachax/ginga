@@ -3,17 +3,19 @@ import { HeroHeader } from '../components/HeroHeader';
 import { StatCard } from '../components/StatCard';
 import { useApi } from '../hooks/useApi';
 import { ChartCard } from '../components/ChartCard';
-import type { GenreStat, Summary, MoodPoint, TempoBin } from '../types';
+import type { GenreStat, Summary, MoodPoint, TempoBin, TrackPage } from '../types';
 import { TopGenresChart } from '../components/charts/TopGenresChart';
 import { MoodMapChart } from '../components/charts/MoodMapChart';
 import { TempoChart } from '../components/charts/TempoChart';
 import { SoundProfileCard } from '../components/SoundProfileCard';
+import { TracksTable } from '../components/TracksTable';
 
 export function Overview() {
   const { data, loading, error } = useApi<Summary>('/api/stats/summary');
   const topGenres = useApi<GenreStat[]>('/api/genres/top?metric=danceability&limit=8');
   const mood = useApi<MoodPoint[]>('/api/stats/mood?sample=300');
   const tempo = useApi<TempoBin[]>('/api/stats/tempo');
+  const topTracks = useApi<TrackPage>('/api/tracks?sort=-danceability&pageSize=5');
 
   return (
     <>
@@ -104,6 +106,17 @@ export function Overview() {
         </Col>
       </Row>
 
+      <Row style={{ marginTop: 16 }}>
+        <Col span={24}>
+          <ChartCard
+            title="Most danceable tracks"
+            loading={topTracks.loading && !topTracks.data}
+            error={topTracks.error}
+          >
+            <TracksTable tracks={topTracks.data?.items ?? []} />
+          </ChartCard>
+        </Col>
+      </Row>
     </>
   );
 }
