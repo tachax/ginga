@@ -23,3 +23,13 @@ export type TempoBin = {
   bpm: number;
   tracks: number;
 };
+
+export type SoundProfile = {
+  genre: string;
+  danceability: number;
+  energy: number;
+  valence: number;
+  acousticness: number;
+  liveness: number;
+  speechiness: number;
+};

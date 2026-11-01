@@ -3,16 +3,18 @@ import { HeroHeader } from '../components/HeroHeader';
 import { StatCard } from '../components/StatCard';
 import { useApi } from '../hooks/useApi';
 import { ChartCard } from '../components/ChartCard';
-import type { GenreStat, Summary, MoodPoint, TempoBin } from '../types';
+import type { GenreStat, Summary, MoodPoint, TempoBin, SoundProfile } from '../types';
 import { TopGenresChart } from '../components/charts/TopGenresChart';
 import { MoodMapChart } from '../components/charts/MoodMapChart';
 import { TempoChart } from '../components/charts/TempoChart';
+import { SoundProfileChart } from '../components/charts/SoundProfileChart';
 
 export function Overview() {
   const { data, loading, error } = useApi<Summary>('/api/stats/summary');
   const topGenres = useApi<GenreStat[]>('/api/genres/top?metric=danceability&limit=8');
   const mood = useApi<MoodPoint[]>('/api/stats/mood?sample=300');
   const tempo = useApi<TempoBin[]>('/api/stats/tempo');
+  const profile = useApi<SoundProfile[]>('/api/genres/compare?a=samba&b=tango');
 
   return (
     <>
@@ -86,7 +88,7 @@ export function Overview() {
             <MoodMapChart data={mood.data ?? []} />
           </ChartCard>
         </Col>
-        
+
         <Col xs={24} lg={8}>
           <ChartCard
             title="Tempo (BPM)"
@@ -95,6 +97,17 @@ export function Overview() {
             error={tempo.error}
           >
             <TempoChart data={tempo.data ?? []} />
+          </ChartCard>
+        </Col>
+
+        <Col xs={24} lg={8}>
+          <ChartCard
+            title="Sound profile"
+            subtitle="samba vs. tango"
+            loading={profile.loading}
+            error={profile.error}
+          >
+            <SoundProfileChart data={profile.data ?? []} />
           </ChartCard>
         </Col>
       </Row>
