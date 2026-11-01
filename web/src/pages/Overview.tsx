@@ -2,10 +2,13 @@ import { Alert, Col, Row } from 'antd';
 import { HeroHeader } from '../components/HeroHeader';
 import { StatCard } from '../components/StatCard';
 import { useApi } from '../hooks/useApi';
-import type { Summary } from '../types';
+import { ChartCard } from '../components/ChartCard';
+import type { GenreStat, Summary } from '../types';
+import { TopGenresChart } from '../components/charts/TopGenresChart';
 
 export function Overview() {
   const { data, loading, error } = useApi<Summary>('/api/stats/summary');
+  const topGenres = useApi<GenreStat[]>('/api/genres/top?metric=danceability&limit=8');
 
   return (
     <>
@@ -56,6 +59,20 @@ export function Overview() {
           />
         </Col>
       </Row>
+
+      <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
+        <Col xs={24} lg={8}>
+          <ChartCard
+            title="Most danceable genres"
+            subtitle="mean danceability"
+            loading={topGenres.loading}
+            error={topGenres.error}
+          >
+            <TopGenresChart data={topGenres.data ?? []} />
+          </ChartCard>
+        </Col>
+      </Row>
+
     </>
   );
 }

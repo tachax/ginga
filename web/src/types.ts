@@ -4,3 +4,8 @@ export type Summary = {
   avgDanceability: number;
   avgPopularity: number;
 };
+
+export type GenreStat = {
+  genre: string;
+  value: number;
+};
