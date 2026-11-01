@@ -20,15 +20,45 @@ export type TrackPage = {
   page: number;
   pageSize: number;
 };
-
 type TrackQuery = {
   sort: SortColumn;
   desc: boolean;
   page: number;
   pageSize: number;
+  genre?: string;
+  minDance?: number;
+  explicit?: boolean;
+  q?: string;
 };
 
-export async function listTracks({ sort, desc, page, pageSize }: TrackQuery): Promise<TrackPage> {
+export async function listTracks(query: TrackQuery): Promise<TrackPage> {
+  const { sort, desc, page, pageSize, genre, minDance, explicit, q } = query;
+  const conditions: string[] = [];
+  const params: unknown[] = [];
+
+  if (genre) {
+    params.push(genre);
+    conditions.push(`EXISTS (
+      SELECT 1 FROM track_genres tg JOIN genres g ON g.id = tg.genre_id
+      WHERE tg.track_id = t.track_id AND g.name = $${params.length})`);
+  }
+  if (minDance !== undefined) {
+    params.push(minDance);
+    conditions.push(`t.danceability >= $${params.length}`);
+  }
+  if (explicit !== undefined) {
+    params.push(explicit);
+    conditions.push(`t.explicit = $${params.length}`);
+  }
+  if (q) {
+    params.push(`%${q}%`);
+    const p = `$${params.length}`;
+    conditions.push(`(t.name ILIKE ${p} OR EXISTS (
+      SELECT 1 FROM track_artists ta JOIN artists a ON a.id = ta.artist_id
+      WHERE ta.track_id = t.track_id AND a.name ILIKE ${p}))`);
+  }
+
+  const where = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
   const offset = (page - 1) * pageSize;
 
   const [itemsResult, countResult] = await Promise.all([
@@ -42,11 +72,15 @@ export async function listTracks({ sort, desc, page, pageSize }: TrackQuery): Pr
             FROM track_genres tg JOIN genres g ON g.id = tg.genre_id
            WHERE tg.track_id = t.track_id) AS genres
        FROM tracks t
+       ${where}
        ORDER BY t.${sort} ${desc ? 'DESC' : 'ASC'}, t.track_id
-       LIMIT $1 OFFSET $2`,
-      [pageSize, offset],
+       LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
+      [...params, pageSize, offset],
     ),
-    pool.query<{ total: number }>('SELECT COUNT(*)::int AS total FROM tracks'),
+    pool.query<{ total: number }>(
+      `SELECT COUNT(*)::int AS total FROM tracks t ${where}`,
+      params,
+    ),
   ]);
 
   return {
