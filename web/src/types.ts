@@ -18,3 +18,8 @@ export type MoodPoint = {
   popularity: number;
   group: string;
 };
+
+export type TempoBin = {
+  bpm: number;
+  tracks: number;
+};
