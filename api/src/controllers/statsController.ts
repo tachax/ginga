@@ -14,6 +14,6 @@ export async function moodHandler(req: Request, res: Response) {
     return;
   }
 
-  const points = await getMoodSample(Math.floor(sample / 3));
+  const points = await getMoodSample(Math.floor(sample / 4));
   res.json(points);
 }

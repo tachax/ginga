@@ -34,9 +34,10 @@ export async function getMoodSample(perGroup: number): Promise<MoodPoint[]> {
        SELECT
          t.track_id, t.name, t.energy, t.valence, t.popularity,
          CASE
-           WHEN g.name IN ('samba', 'forro', 'salsa') THEN 'samba, forró, salsa'
-           WHEN g.name IN ('tango', 'mpb')            THEN 'tango, mpb'
-           ELSE 'others'
+           WHEN g.name IN ('reggaeton', 'latino', 'reggae', 'dancehall') THEN 'latin & caribbean'
+           WHEN g.name IN ('chicago-house', 'minimal-techno')            THEN 'electronic'
+           WHEN g.name = 'hip-hop'                                       THEN 'hip-hop'
+            ELSE 'others'
          END AS grp
        FROM tracks t
        JOIN track_genres tg ON tg.track_id = t.track_id

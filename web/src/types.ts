@@ -9,3 +9,12 @@ export type GenreStat = {
   genre: string;
   value: number;
 };
+
+export type MoodPoint = {
+  id: string;
+  name: string;
+  energy: number;
+  valence: number;
+  popularity: number;
+  group: string;
+};

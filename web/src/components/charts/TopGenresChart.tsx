@@ -1,13 +1,12 @@
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import type { GenreStat } from '../../types';
+import { reduceMotion } from './chartTheme';
 
 const GREEN_RAMP = [
   '#2E7D4F', '#3A8A5B', '#4A9868', '#5DA677',
   '#72B488', '#89C29B', '#A6D2B2', '#CFE8D5',
 ];
-
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 type TopGenresChartProps = {
   data: GenreStat[];
