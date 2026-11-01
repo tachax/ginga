@@ -54,3 +54,22 @@ export async function getMoodSample(perGroup: number): Promise<MoodPoint[]> {
   );
   return rows;
 }
+
+export type TempoBin = {
+  bpm: number;
+  tracks: number;
+};
+
+export async function getTempoHistogram(): Promise<TempoBin[]> {
+  const { rows } = await pool.query<TempoBin>(`
+    SELECT
+      LEAST(GREATEST(FLOOR(tempo / 10) * 10, 60), 180)::int AS bpm,
+      COUNT(*)::int AS tracks
+    FROM tracks
+    WHERE tempo > 0
+    GROUP BY bpm
+    ORDER BY bpm
+  `);
+  return rows;
+}
+
