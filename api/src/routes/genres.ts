@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { topGenresHandler } from '../controllers/genresController.js';
+import { compareHandler, topGenresHandler } from '../controllers/genresController.js';
 
 export const genresRouter = Router();
 
 genresRouter.get('/top', topGenresHandler);
+genresRouter.get('/compare', compareHandler);
