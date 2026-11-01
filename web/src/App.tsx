@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { ConfigProvider, Layout, type ThemeConfig } from 'antd';
 import { SideMenu, type PageKey } from './components/SideMenu';
-import { HeroHeader } from './components/HeroHeader';
-import { useApi } from './hooks/useApi';
-import type { Summary } from './types';
 import { Overview } from './pages/Overview';
 
 const theme: ThemeConfig = {
@@ -31,7 +28,6 @@ const theme: ThemeConfig = {
 
 function App() {
   const [page, setPage] = useState<PageKey>('overview');
-  const summary = useApi<Summary>('/api/stats/summary');
 
   return (
     <ConfigProvider theme={theme}>
