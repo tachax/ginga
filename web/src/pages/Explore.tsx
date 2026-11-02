@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Card } from 'antd';
+import { Card, Col, Row } from 'antd';
+import { TrackPanel } from '../components/TrackPanel';
 import { Filters } from '../components/Filters';
 import { TracksTable } from '../components/TracksTable';
 import { useApi } from '../hooks/useApi';
@@ -33,17 +34,21 @@ export function Explore() {
   const [filters, setFilters] = useState<TrackFilters>(DEFAULT_FILTERS);
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState('-danceability');
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const path = buildTracksPath(filters, page, sort);
   const tracks = useApi<TrackPage>(path);
+  const activeId = selectedId ?? tracks.data?.items[0]?.id ?? null;
 
   function handleFiltersChange(next: TrackFilters) {
     setFilters(next);
     setPage(1);
+    setSelectedId(null);
   }
 
   function handleSortChange(next: string) {
     setSort(next);
     setPage(1);
+    setSelectedId(null);
   }
 
   return (
@@ -57,23 +62,32 @@ export function Explore() {
 
       <Filters value={filters} onChange={handleFiltersChange} />
 
-      <Card style={{ marginTop: 16 }}>
-        <TracksTable
-          tracks={tracks.data?.items ?? []}
-          loading={tracks.loading}
-          pagination={{
-            current: page,
-            pageSize: PAGE_SIZE,
-            total: tracks.data?.total ?? 0,
-            onChange: setPage,
-            showSizeChanger: false,
-            showTotal: (total, range) =>
-              `Showing ${range[0]}–${range[1]} of ${total.toLocaleString('en-US')}`,
-          }}
-          sort={sort}
-          onSortChange={handleSortChange}
-        />
-      </Card>
+      <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
+        <Col xs={24} lg={16}>
+          <Card>
+            <TracksTable
+              tracks={tracks.data?.items ?? []}
+              loading={tracks.loading}
+              pagination={{
+                current: page,
+                pageSize: PAGE_SIZE,
+                total: tracks.data?.total ?? 0,
+                onChange: setPage,
+                showSizeChanger: false,
+                showTotal: (total, range) =>
+                  `Showing ${range[0]}–${range[1]} of ${total.toLocaleString('en-US')}`,
+              }}
+              sort={sort}
+              onSortChange={handleSortChange}
+              selectedId={activeId ?? undefined}
+              onSelect={(track) => setSelectedId(track.id)}
+            />
+          </Card>
+        </Col>
+        <Col xs={24} lg={8}>
+          <TrackPanel trackId={activeId} />
+        </Col>
+      </Row>
     </>
   );
 }

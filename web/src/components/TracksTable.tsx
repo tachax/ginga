@@ -54,6 +54,8 @@ type TracksTableProps = {
   pagination?: TableProps<Track>['pagination'];
   sort?: string;
   onSortChange?: (sort: string) => void;
+  selectedId?: string;
+  onSelect?: (track: Track) => void;
 };
 
 export function TracksTable({
@@ -62,6 +64,8 @@ export function TracksTable({
   pagination = false,
   sort,
   onSortChange,
+  selectedId,
+  onSelect,
 }: TracksTableProps) {
   const sortField = sort?.replace(/^-/, '');
   const sortDesc = sort?.startsWith('-');
@@ -85,6 +89,13 @@ export function TracksTable({
       dataSource={tracks}
       loading={loading}
       pagination={pagination}
+      onRow={(track) => ({
+        onClick: onSelect ? () => onSelect(track) : undefined,
+        style: {
+          cursor: onSelect ? 'pointer' : undefined,
+          background: track.id === selectedId ? '#DDF0E1' : undefined,
+        },
+      })}
       onChange={(_pagination, _filters, sorter, extra) => {
         if (extra.action !== 'sort' || !onSortChange) return;
 

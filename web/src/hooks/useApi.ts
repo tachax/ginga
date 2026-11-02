@@ -8,14 +8,16 @@ type ApiState<T> = {
   error: string | null;
 };
 
-export function useApi<T>(path: string): ApiState<T> {
+export function useApi<T>(path: string | null): ApiState<T> {
   const [state, setState] = useState<ApiState<T>>({
     data: null,
-    loading: true,
+    loading: path !== null,
     error: null,
   });
 
   useEffect(() => {
+    if (path === null) return;
+
     const controller = new AbortController();
     setState((prev) => ({ ...prev, loading: true, error: null }));
 

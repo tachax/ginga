@@ -58,3 +58,13 @@ export type TrackFilters = {
   hideExplicit: boolean;
   genre: string | null;
 };
+
+export type TrackDetails = Track & {
+  album: string | null;
+  durationMs: number;
+  explicit: boolean;
+  valence: number;
+  acousticness: number;
+  speechiness: number;
+  liveness: number;
+};
