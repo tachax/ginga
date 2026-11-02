@@ -1,5 +1,13 @@
 import { pool } from '../db.js';
 
+const ARTISTS_SQL = `(SELECT string_agg(a.name, ', ' ORDER BY a.name)
+   FROM track_artists ta JOIN artists a ON a.id = ta.artist_id
+  WHERE ta.track_id = t.track_id)`;
+
+const GENRES_SQL = `(SELECT array_agg(g.name ORDER BY g.name)
+   FROM track_genres tg JOIN genres g ON g.id = tg.genre_id
+  WHERE tg.track_id = t.track_id)`;
+
 export const SORT_COLUMNS = ['danceability', 'energy', 'tempo', 'popularity', 'name'] as const;
 export type SortColumn = (typeof SORT_COLUMNS)[number];
 
@@ -65,12 +73,8 @@ export async function listTracks(query: TrackQuery): Promise<TrackPage> {
     pool.query<Track>(
       `SELECT
          t.track_id AS id, t.name, t.danceability, t.energy, t.tempo, t.popularity,
-         (SELECT string_agg(a.name, ', ' ORDER BY a.name)
-            FROM track_artists ta JOIN artists a ON a.id = ta.artist_id
-           WHERE ta.track_id = t.track_id) AS artists,
-         (SELECT array_agg(g.name ORDER BY g.name)
-            FROM track_genres tg JOIN genres g ON g.id = tg.genre_id
-           WHERE tg.track_id = t.track_id) AS genres
+         ${ARTISTS_SQL} AS artists,
+         ${GENRES_SQL} AS genres
        FROM tracks t
        ${where}
        ORDER BY t.${sort} ${desc ? 'DESC' : 'ASC'}, t.track_id
@@ -89,4 +93,29 @@ export async function listTracks(query: TrackQuery): Promise<TrackPage> {
     page,
     pageSize,
   };
+}
+
+export type TrackDetails = Track & {
+  album: string | null;
+  durationMs: number;
+  explicit: boolean;
+  valence: number;
+  acousticness: number;
+  speechiness: number;
+  liveness: number;
+};
+
+export async function getTrack(id: string): Promise<TrackDetails | null> {
+  const { rows } = await pool.query<TrackDetails>(
+    `SELECT
+       t.track_id AS id, t.name, t.album, t.duration_ms AS "durationMs", t.explicit,
+       t.popularity, t.tempo, t.danceability, t.energy, t.valence,
+       t.acousticness, t.speechiness, t.liveness,
+       ${ARTISTS_SQL} AS artists,
+       ${GENRES_SQL} AS genres
+     FROM tracks t
+     WHERE t.track_id = $1`,
+    [id],
+  );
+  return rows[0] ?? null;
 }

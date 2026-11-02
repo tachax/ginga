@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { SORT_COLUMNS, listTracks, type SortColumn } from '../services/tracksService.js';
+import { SORT_COLUMNS, getTrack, listTracks, type SortColumn } from '../services/tracksService.js';
 
 function isSortColumn(value: string): value is SortColumn {
   return (SORT_COLUMNS as readonly string[]).includes(value);
@@ -49,4 +49,15 @@ export async function listTracksHandler(req: Request, res: Response) {
 
   const result = await listTracks({ sort, desc, page, pageSize, genre, minDance, explicit, q });
   res.json(result);
+}
+
+export async function getTrackHandler(req: Request<{ id: string }>, res: Response) {
+  const track = await getTrack(req.params.id);
+
+  if (!track) {
+    res.status(404).json({ error: 'track not found' });
+    return;
+  }
+
+  res.json(track);
 }

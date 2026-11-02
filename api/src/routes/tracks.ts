@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { listTracksHandler } from '../controllers/tracksController.js';
+import { getTrackHandler, listTracksHandler } from '../controllers/tracksController.js';
 
 export const tracksRouter = Router();
 
 tracksRouter.get('/', listTracksHandler);
+tracksRouter.get('/:id', getTrackHandler);
