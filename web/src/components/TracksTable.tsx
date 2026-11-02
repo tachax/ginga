@@ -18,6 +18,7 @@ const columns: NonNullable<TableProps<Track>['columns']> = [
     title: 'Genre',
     key: 'genres',
     dataIndex: 'genres',
+    responsive: ['md'],
     render: (genres: string[]) =>
       genres.map((genre) => (
         <Tag key={genre} style={{ background: '#DDF0E1', color: '#2E7D4F', border: 'none' }}>
@@ -29,7 +30,7 @@ const columns: NonNullable<TableProps<Track>['columns']> = [
     title: 'Danceability',
     key: 'danceability',
     dataIndex: 'danceability',
-    width: 200,
+    width: 170,
     render: (value: number) => (
       <Flex align="center" gap={8}>
         <Progress
@@ -37,15 +38,32 @@ const columns: NonNullable<TableProps<Track>['columns']> = [
           showInfo={false}
           size="small"
           strokeColor="#2E7D4F"
-          style={{ width: 90, margin: 0 }}
+          style={{ width: 80, margin: 0 }}
         />
         <span>{value.toFixed(2)}</span>
       </Flex>
     ),
   },
-  { title: 'Energy', key: 'energy', dataIndex: 'energy', render: (value: number) => value.toFixed(2) },
-  { title: 'BPM', key: 'tempo', dataIndex: 'tempo', render: (value: number) => Math.round(value) },
-  { title: 'Popularity', key: 'popularity', dataIndex: 'popularity' },
+  {
+    title: 'Energy',
+    key: 'energy',
+    dataIndex: 'energy',
+    responsive: ['md'],
+    render: (value: number) => value.toFixed(2),
+  },
+  {
+    title: 'BPM',
+    key: 'tempo',
+    dataIndex: 'tempo',
+    responsive: ['md'],
+    render: (value: number) => Math.round(value),
+  },
+  {
+    title: 'Popularity',
+    key: 'popularity',
+    dataIndex: 'popularity',
+    responsive: ['md'],
+  },
 ];
 
 type TracksTableProps = {

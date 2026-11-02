@@ -5,6 +5,7 @@ import {
   DatabaseOutlined, 
   LineChartOutlined,
 } from "@ant-design/icons";
+import { Logo } from './Logo';
 import styles from './SideMenu.module.css';
 
 export type PageKey = 'overview' | 'explore' | 'genres' | 'about';
@@ -26,13 +27,7 @@ export function SideMenu({ page, onChange }: SideMenuProps) {
     <Layout.Sider width={240} theme="light" className={styles.sider}>
       <div className={styles.inner}>
         <div className={styles.logo}>
-          <span className={styles.bars} aria-hidden="true">
-            <span />
-            <span />
-            <span />
-            <span />
-          </span>
-          <span className={`display ${styles.logoText}`}>ginga</span>
+          <Logo />
         </div>
 
         <Menu

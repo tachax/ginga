@@ -62,3 +62,35 @@
     transform: scaleY(0.7);
   }
 }
+
+.search {
+  width: 320px;
+}
+
+.genre {
+  width: 160px;
+}
+
+@media (max-width: 767px) {
+  .hero {
+    display: block;
+    padding: 24px 20px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .equalizer {
+    display: none;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .search,
+  .genre {
+    width: 100%;
+  }
+}

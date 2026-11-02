@@ -32,7 +32,7 @@ export function Overview() {
       )}
 
       <Row gutter={[16, 16]} style={{ marginTop: 24 }}>
-        <Col xs={24} sm={12} lg={6}>
+        <Col xs={12} lg={6}>
           <StatCard
             label="Tracks"
             value={data?.tracks.toLocaleString('en-US')}
@@ -40,7 +40,7 @@ export function Overview() {
             loading={loading}
           />
         </Col>
-        <Col xs={24} sm={12} lg={6}>
+        <Col xs={12} lg={6}>
           <StatCard
             label="Genres"
             value={data?.genres}
@@ -48,7 +48,7 @@ export function Overview() {
             loading={loading}
           />
         </Col>
-        <Col xs={24} sm={12} lg={6}>
+        <Col xs={12} lg={6}>
           <StatCard
             label="Avg. danceability"
             value={data?.avgDanceability.toFixed(2)}
@@ -56,7 +56,7 @@ export function Overview() {
             loading={loading}
           />
         </Col>
-        <Col xs={24} sm={12} lg={6}>
+        <Col xs={12} lg={6}>
           <StatCard
             label="Avg. popularity"
             value={data && Math.round(data.avgPopularity)}

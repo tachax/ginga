@@ -27,18 +27,21 @@ export function HeroHeader() {
         </p>
 
         <div className={styles.controls}>
-          <Input
-            size="large"
-            placeholder="Search a song or artist"
-            prefix={<SearchOutlined />}
-            style={{ width: 320 }}
-          />
-          <Select
-            size="large"
-            defaultValue="all"
-            options={genreOptions}
-            style={{ width: 160 }}
-          />
+          <div className={styles.search}>
+            <Input
+              size="large"
+              placeholder="Search a song or artist"
+              prefix={<SearchOutlined />}
+            />
+          </div>
+          <div className={styles.genre}>
+            <Select
+              size="large"
+              defaultValue="all"
+              options={genreOptions}
+              style={{ width: '100%' }}
+            />
+          </div>
         </div>
       </div>
 

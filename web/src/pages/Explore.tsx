@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Drawer, Grid, Row } from 'antd';
 import { TrackPanel } from '../components/TrackPanel';
 import { Filters } from '../components/Filters';
 import { TracksTable } from '../components/TracksTable';
@@ -35,9 +35,14 @@ export function Explore() {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState('-danceability');
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const path = buildTracksPath(filters, page, sort);
   const tracks = useApi<TrackPage>(path);
   const activeId = selectedId ?? tracks.data?.items[0]?.id ?? null;
+
+  const screens = Grid.useBreakpoint();
+  const isPhone = !screens.md;
+  const useDrawer = !screens.lg;
 
   function handleFiltersChange(next: TrackFilters) {
     setFilters(next);
@@ -53,7 +58,7 @@ export function Explore() {
 
   return (
     <>
-      <h1 className="display" style={{ margin: '0 0 4px', fontSize: 40 }}>
+      <h1 className="display" style={{ margin: '0 0 4px', fontSize: isPhone ? 32 : 40 }}>
         Explore tracks
       </h1>
       <p style={{ margin: '0 0 24px', color: '#557063' }}>
@@ -74,20 +79,41 @@ export function Explore() {
                 total: tracks.data?.total ?? 0,
                 onChange: setPage,
                 showSizeChanger: false,
-                showTotal: (total, range) =>
-                  `Showing ${range[0]}–${range[1]} of ${total.toLocaleString('en-US')}`,
+                simple: isPhone,
+                showTotal: isPhone
+                  ? undefined
+                  : (total, range) =>
+                      `Showing ${range[0]}–${range[1]} of ${total.toLocaleString('en-US')}`,
               }}
               sort={sort}
               onSortChange={handleSortChange}
-              selectedId={activeId ?? undefined}
-              onSelect={(track) => setSelectedId(track.id)}
+              selectedId={(useDrawer ? selectedId : activeId) ?? undefined}
+              onSelect={(track) => {
+                setSelectedId(track.id);
+                if (useDrawer) setDrawerOpen(true);
+              }}
             />
           </Card>
         </Col>
-        <Col xs={24} lg={8}>
-          <TrackPanel trackId={activeId} />
-        </Col>
+        {!useDrawer && (
+          <Col lg={8}>
+            <TrackPanel trackId={activeId} />
+          </Col>
+        )}
       </Row>
+
+      {useDrawer && (
+        <Drawer
+          title="Track profile"
+          placement="bottom"
+          size="85%"
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          styles={{ body: { padding: 12, background: '#F3F7EF' } }}
+        >
+          <TrackPanel trackId={activeId} />
+        </Drawer>
+      )}
     </>
   );
 }

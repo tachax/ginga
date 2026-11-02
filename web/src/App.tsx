@@ -1,6 +1,8 @@
 import { useState, type ReactNode } from 'react';
-import { ConfigProvider, Layout, type ThemeConfig } from 'antd';
+import { ConfigProvider, Grid, Layout, type ThemeConfig } from 'antd';
 import { SideMenu, type PageKey } from './components/SideMenu';
+import { MobileHeader } from './components/MobileHeader';
+import { MobileTabBar } from './components/MobileTabBar';
 import { Overview } from './pages/Overview';
 import { Explore } from './pages/Explore';
 
@@ -35,14 +37,20 @@ const PAGES: Partial<Record<PageKey, ReactNode>> = {
 
 function App() {
   const [page, setPage] = useState<PageKey>('overview');
+  const screens = Grid.useBreakpoint();
+  const isMobile = !screens.md;
 
   return (
     <ConfigProvider theme={theme}>
-      <Layout hasSider style={{ minHeight: '100vh' }}>
-        <SideMenu page={page} onChange={setPage} />
-        <Layout.Content style={{ padding: '24px 24px 24px 0' }}>
+      <Layout hasSider={!isMobile} style={{ minHeight: '100vh' }}>
+        {!isMobile && <SideMenu page={page} onChange={setPage} />}
+        <Layout.Content
+          style={{ padding: isMobile ? '0 16px 96px' : '24px 24px 24px 0' }}
+        >
+          {isMobile && <MobileHeader onSearch={() => setPage('explore')} />}
           {PAGES[page] ?? <p>Coming soon: {page}</p>}
         </Layout.Content>
+        {isMobile && <MobileTabBar page={page} onChange={setPage} />}
       </Layout>
     </ConfigProvider>
   );

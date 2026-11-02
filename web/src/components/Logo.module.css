@@ -1,0 +1,28 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 22px;
+}
+
+.bars span {
+  width: 5px;
+  border-radius: 2px;
+  background: #2e7d4f;
+}
+
+.bars span:nth-child(1) { height: 100%; }
+.bars span:nth-child(2) { height: 40%; }
+.bars span:nth-child(3) { height: 65%; }
+.bars span:nth-child(4) { height: 100%; background: #e8955a; }
+
+.text {
+  font-size: 26px;
+  line-height: 1;
+}

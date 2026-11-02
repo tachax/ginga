@@ -22,3 +22,9 @@
   font-size: 13px;
   color: #557063;
 }
+
+@media (max-width: 767px) {
+  .value {
+    font-size: 26px;
+  }
+}
