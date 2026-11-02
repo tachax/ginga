@@ -2,11 +2,11 @@
 
 **How the world dances.** A dashboard about danceability across 114 music genres, built on 114,000 Spotify tracks.
 
-🔗 **Live:** [NETLIFY_LINK](https://ginga-music.netlify.app/)
+🔗 **Live:** [https://ginga-music.netlify.app](https://ginga-music.netlify.app/)
 
 ## Why I built it
 
-I'm a MSCS student and I built this to study **ECharts** and **Ant Design**. I wanted a real project, end to end: from a raw CSV to a database, an API and a responsive interface.
+I'm an MSCS student and I built this to study **ECharts** and **Ant Design**. I wanted a real project, end to end: from a raw CSV to a database, an API and a responsive interface.
 
 ## The data
 
