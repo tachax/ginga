@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import { ConfigProvider, Layout, type ThemeConfig } from 'antd';
 import { SideMenu, type PageKey } from './components/SideMenu';
 import { Overview } from './pages/Overview';
+import { Explore } from './pages/Explore';
 
 const theme: ThemeConfig = {
   token: {
@@ -23,7 +24,13 @@ const theme: ThemeConfig = {
     Input: { borderRadiusLG: 22 },
     Select: { borderRadiusLG: 22 },
     Card: { borderRadiusLG: 22, headerFontSize: 20 },
+    Checkbox: { borderRadiusSM: 4 },
   },
+};
+
+const PAGES: Partial<Record<PageKey, ReactNode>> = {
+  overview: <Overview />,
+  explore: <Explore />,
 };
 
 function App() {
@@ -34,7 +41,7 @@ function App() {
       <Layout hasSider style={{ minHeight: '100vh' }}>
         <SideMenu page={page} onChange={setPage} />
         <Layout.Content style={{ padding: '24px 24px 24px 0' }}>
-          {page === 'overview' ? <Overview /> : <p>Coming soon: {page}</p>}
+          {PAGES[page] ?? <p>Coming soon: {page}</p>}
         </Layout.Content>
       </Layout>
     </ConfigProvider>

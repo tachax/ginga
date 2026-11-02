@@ -51,3 +51,10 @@ export type TrackPage = {
   page: number;
   pageSize: number;
 };
+
+export type TrackFilters = {
+  q: string;
+  minDance: number;
+  hideExplicit: boolean;
+  genre: string | null;
+};
