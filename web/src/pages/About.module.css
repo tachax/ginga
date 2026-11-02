@@ -1,0 +1,93 @@
+.title {
+  margin: 0 0 8px;
+  font-size: 40px;
+}
+
+.intro {
+  max-width: 720px;
+  margin: 0 0 24px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #557063;
+}
+
+.text {
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+.link {
+  font-weight: 600;
+  color: #2e7d4f;
+}
+
+.link:hover {
+  color: #1f5e3a;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fact {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #f3f7ef;
+}
+
+.factValue {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.factLabel {
+  font-size: 13px;
+  color: #557063;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 32px;
+  margin: 0;
+}
+
+.feature dt {
+  font-weight: 600;
+  color: #1d3b2a;
+}
+
+.feature dd {
+  margin: 2px 0 0;
+  line-height: 1.5;
+  color: #557063;
+}
+
+.list {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
+.list li + li {
+  margin-top: 8px;
+}
+
+.footnote {
+  margin: 24px 0 0;
+  font-size: 13px;
+  color: #557063;
+}
+
+@media (max-width: 767px) {
+  .title {
+    font-size: 32px;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+}

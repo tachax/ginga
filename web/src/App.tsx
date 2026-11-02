@@ -5,6 +5,7 @@ import { MobileHeader } from './components/MobileHeader';
 import { MobileTabBar } from './components/MobileTabBar';
 import { Overview } from './pages/Overview';
 import { Explore } from './pages/Explore';
+import { About } from './pages/About';
 
 const theme: ThemeConfig = {
   token: {
@@ -33,6 +34,7 @@ const theme: ThemeConfig = {
 const PAGES: Partial<Record<PageKey, ReactNode>> = {
   overview: <Overview />,
   explore: <Explore />,
+  about: <About />,
 };
 
 function App() {

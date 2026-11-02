@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import {
   AppstoreOutlined,
   CustomerServiceOutlined,
+  DatabaseOutlined,
   LineChartOutlined,
 } from '@ant-design/icons';
 import type { PageKey } from './SideMenu';
@@ -11,6 +12,7 @@ const TABS: { key: PageKey; label: string; icon: ReactNode }[] = [
   { key: 'overview', label: 'Home', icon: <AppstoreOutlined /> },
   { key: 'explore', label: 'Explore', icon: <CustomerServiceOutlined /> },
   { key: 'genres', label: 'Genres', icon: <LineChartOutlined /> },
+  { key: 'about', label: 'About', icon: <DatabaseOutlined /> },
 ];
 
 type MobileTabBarProps = {
