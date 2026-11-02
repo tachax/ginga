@@ -1,10 +1,12 @@
 import { Flex, Progress, Table, Tag, type TableProps } from 'antd';
 import type { Track } from '../types';
 
-const columns: TableProps<Track>['columns'] = [
+const SORTABLE = ['name', 'danceability', 'energy', 'tempo', 'popularity'];
+
+const columns: NonNullable<TableProps<Track>['columns']> = [
   {
     title: 'Track',
-    key: 'track',
+    key: 'name',
     render: (_, track) => (
       <div>
         <div style={{ fontWeight: 600 }}>{track.name}</div>
@@ -14,6 +16,7 @@ const columns: TableProps<Track>['columns'] = [
   },
   {
     title: 'Genre',
+    key: 'genres',
     dataIndex: 'genres',
     render: (genres: string[]) =>
       genres.map((genre) => (
@@ -24,6 +27,7 @@ const columns: TableProps<Track>['columns'] = [
   },
   {
     title: 'Danceability',
+    key: 'danceability',
     dataIndex: 'danceability',
     width: 200,
     render: (value: number) => (
@@ -39,24 +43,58 @@ const columns: TableProps<Track>['columns'] = [
       </Flex>
     ),
   },
-  { title: 'Energy', dataIndex: 'energy', render: (value: number) => value.toFixed(2) },
-  { title: 'BPM', dataIndex: 'tempo', render: (value: number) => Math.round(value) },
-  { title: 'Popularity', dataIndex: 'popularity' },
+  { title: 'Energy', key: 'energy', dataIndex: 'energy', render: (value: number) => value.toFixed(2) },
+  { title: 'BPM', key: 'tempo', dataIndex: 'tempo', render: (value: number) => Math.round(value) },
+  { title: 'Popularity', key: 'popularity', dataIndex: 'popularity' },
 ];
 
 type TracksTableProps = {
   tracks: Track[];
   loading?: boolean;
+  pagination?: TableProps<Track>['pagination'];
+  sort?: string;
+  onSortChange?: (sort: string) => void;
 };
 
-export function TracksTable({ tracks, loading = false }: TracksTableProps) {
+export function TracksTable({
+  tracks,
+  loading = false,
+  pagination = false,
+  sort,
+  onSortChange,
+}: TracksTableProps) {
+  const sortField = sort?.replace(/^-/, '');
+  const sortDesc = sort?.startsWith('-');
+
+  const tableColumns = columns.map((column) => {
+    const key = String(column.key);
+    if (!onSortChange || !SORTABLE.includes(key)) return column;
+
+    return {
+      ...column,
+      sorter: true,
+      sortDirections: ['descend' as const, 'ascend' as const],
+      sortOrder: sortField === key ? (sortDesc ? ('descend' as const) : ('ascend' as const)) : null,
+    };
+  });
+
   return (
     <Table
       rowKey="id"
-      columns={columns}
+      columns={tableColumns}
       dataSource={tracks}
       loading={loading}
-      pagination={false}
+      pagination={pagination}
+      onChange={(_pagination, _filters, sorter, extra) => {
+        if (extra.action !== 'sort' || !onSortChange) return;
+
+        const current = Array.isArray(sorter) ? sorter[0] : sorter;
+        if (!current.order) {
+          onSortChange('-danceability');
+          return;
+        }
+        onSortChange(`${current.order === 'descend' ? '-' : ''}${String(current.columnKey)}`);
+      }}
     />
   );
 }

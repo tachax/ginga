@@ -1,4 +1,4 @@
-import { useState, ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { ConfigProvider, Layout, type ThemeConfig } from 'antd';
 import { SideMenu, type PageKey } from './components/SideMenu';
 import { Overview } from './pages/Overview';
