@@ -1,4 +1,5 @@
-import { Flex, Progress, Table, Tag, type TableProps } from 'antd';
+import { Flex, Progress, Table, type TableProps } from 'antd';
+import { GenreTag } from './GenreTag';
 import type { Track } from '../types';
 
 const SORTABLE = ['name', 'danceability', 'energy', 'tempo', 'popularity'];
@@ -19,12 +20,7 @@ const columns: NonNullable<TableProps<Track>['columns']> = [
     key: 'genres',
     dataIndex: 'genres',
     responsive: ['md'],
-    render: (genres: string[]) =>
-      genres.map((genre) => (
-        <Tag key={genre} style={{ background: '#DDF0E1', color: '#2E7D4F', border: 'none' }}>
-          {genre}
-        </Tag>
-      )),
+    render: (genres: string[]) => genres.map((genre) => <GenreTag key={genre} genre={genre} />),
   },
   {
     title: 'Danceability',

@@ -1,11 +1,11 @@
-.name {
+.title {
   margin: 12px 0 4px;
   font-size: 28px;
   line-height: 1.15;
 }
 
-.artists {
-  margin: 0 0 20px;
+.subtitle {
+  margin: 0;
   color: #557063;
 }
 
@@ -13,7 +13,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .stat {
@@ -37,17 +37,4 @@
   font-size: 14px;
   font-weight: 600;
   color: #1d3b2a;
-}
-
-.feature {
-  display: grid;
-  grid-template-columns: 80px 1fr 36px;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 6px;
-}
-
-.featureValue {
-  text-align: right;
-  font-weight: 600;
 }

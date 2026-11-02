@@ -1,0 +1,23 @@
+.row {
+  display: grid;
+  grid-template-columns: 80px 1fr 36px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.value {
+  text-align: right;
+  font-weight: 600;
+}
+
+.compact .row {
+  grid-template-columns: 52px 1fr;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.compact .label {
+  font-size: 12px;
+  color: #557063;
+}

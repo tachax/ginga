@@ -1,0 +1,47 @@
+.row {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #e1eadc;
+  border-radius: 18px;
+  background: #ffffff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.selected {
+  border-color: #2e7d4f;
+  background: #eef7f0;
+}
+
+.row:focus-visible {
+  outline: 2px solid #2e7d4f;
+  outline-offset: 2px;
+}
+
+.rank {
+  font-size: 12px;
+  font-weight: 600;
+  color: #557063;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.name {
+  font-size: 16px;
+  color: #1d3b2a;
+}
+
+.value {
+  font-size: 18px;
+  color: #2e7d4f;
+}

@@ -1,5 +1,12 @@
 import type { Request, Response } from 'express';
-import { METRICS, compareGenres, getTopGenres, listGenres, type Metric } from '../services/genresService.js';
+import {
+  METRICS,
+  compareGenres,
+  getGenreProfile,
+  getTopGenres,
+  listGenres,
+  type Metric,
+} from '../services/genresService.js';
 
 function isMetric(value: unknown): value is Metric {
   return typeof value === 'string' && (METRICS as readonly string[]).includes(value);
@@ -46,4 +53,15 @@ export async function compareHandler(req: Request, res: Response) {
 export async function listGenresHandler(_req: Request, res: Response) {
   const genres = await listGenres();
   res.json(genres);
+}
+
+export async function genreProfileHandler(req: Request<{ name: string }>, res: Response) {
+  const profile = await getGenreProfile(req.params.name);
+
+  if (!profile) {
+    res.status(404).json({ error: `genre not found: ${req.params.name}` });
+    return;
+  }
+
+  res.json(profile);
 }

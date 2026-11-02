@@ -19,6 +19,12 @@ type FiltersProps = {
 export function Filters({ value, onChange }: FiltersProps) {
   const [dance, setDance] = useState(value.minDance);
 
+  // A genre picked on the Genres page may not be in the featured list: show it as a chip too.
+  const genreChips =
+    value.genre && !FEATURED_GENRES.includes(value.genre)
+      ? [value.genre, ...FEATURED_GENRES]
+      : FEATURED_GENRES;
+
   return (
     <Card>
       <Flex gap={24} align="center" wrap>
@@ -62,7 +68,7 @@ export function Filters({ value, onChange }: FiltersProps) {
           All
         </Tag.CheckableTag>
 
-        {FEATURED_GENRES.map((genre) => {
+        {genreChips.map((genre) => {
           const checked = value.genre === genre;
           return (
             <Tag.CheckableTag

@@ -1,8 +1,9 @@
-import { Button, Card, Flex, Progress, Tag } from 'antd';
+import { Button, Card, Flex } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
+import { GenreTag } from './GenreTag';
+import { ProfileCard } from './ProfileCard';
 import { useApi } from '../hooks/useApi';
 import type { TrackDetails } from '../types';
-import styles from './TrackPanel.module.css';
 
 function formatDuration(ms: number) {
   const totalSeconds = Math.round(ms / 1000);
@@ -30,60 +31,24 @@ export function TrackPanel({ trackId }: TrackPanelProps) {
     return <Card loading={details.loading} />;
   }
 
-  const stats = [
-    { label: 'BPM', value: Math.round(track.tempo) },
-    { label: 'Duration', value: formatDuration(track.durationMs) },
-    { label: 'Popularity', value: track.popularity },
-  ];
-
-  const features = [
-    { label: 'Dance', value: track.danceability, color: '#2E7D4F' },
-    { label: 'Energy', value: track.energy, color: '#3A8A5B' },
-    { label: 'Happiness', value: track.valence, color: '#5DA677' },
-    { label: 'Acoustic', value: track.acousticness, color: '#E8955A' },
-    { label: 'Speech', value: track.speechiness, color: '#7FB8C9' },
-    { label: 'Live', value: track.liveness, color: '#7FB8C9' },
-  ];
-
   return (
-    <Card>
-      <Flex gap={4} wrap>
-        {track.genres.map((genre) => (
-          <Tag
-            key={genre}
-            style={{ background: '#DDF0E1', color: '#2E7D4F', border: 'none' }}
-          >
-            {genre}
-          </Tag>
-        ))}
-      </Flex>
-      <h2 className={`display ${styles.name}`}>{track.name}</h2>
-      <p className={styles.artists}>{track.artists}</p>
-
-      <div className={styles.stats}>
-        {stats.map((stat) => (
-          <div key={stat.label} className={styles.stat}>
-            <div className={styles.statLabel}>{stat.label}</div>
-            <div className={`display ${styles.statValue}`}>{stat.value}</div>
-          </div>
-        ))}
-      </div>
-
-      <h3 className={styles.sectionTitle}>Sound profile</h3>
-      {features.map((feature) => (
-        <div key={feature.label} className={styles.feature}>
-          <span>{feature.label}</span>
-          <Progress
-            percent={feature.value * 100}
-            showInfo={false}
-            size="small"
-            strokeColor={feature.color}
-            style={{ margin: 0 }}
-          />
-          <span className={styles.featureValue}>{feature.value.toFixed(2)}</span>
-        </div>
-      ))}
-
+    <ProfileCard
+      eyebrow={
+        <Flex gap={4} wrap>
+          {track.genres.map((genre) => (
+            <GenreTag key={genre} genre={genre} />
+          ))}
+        </Flex>
+      }
+      title={track.name}
+      subtitle={track.artists}
+      stats={[
+        { label: 'BPM', value: Math.round(track.tempo) },
+        { label: 'Duration', value: formatDuration(track.durationMs) },
+        { label: 'Popularity', value: track.popularity },
+      ]}
+      features={track}
+    >
       <Button
         type="primary"
         size="large"
@@ -97,6 +62,6 @@ export function TrackPanel({ trackId }: TrackPanelProps) {
       >
         Listen on Spotify
       </Button>
-    </Card>
+    </ProfileCard>
   );
 }

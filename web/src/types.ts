@@ -5,9 +5,24 @@ export type Summary = {
   avgPopularity: number;
 };
 
+export type AudioFeatures = {
+  danceability: number;
+  energy: number;
+  valence: number;
+  acousticness: number;
+  speechiness: number;
+  liveness: number;
+};
+
+export type GenreMetric = 'danceability' | 'energy' | 'valence' | 'popularity';
+
 export type GenreStat = {
   genre: string;
   value: number;
+  tracks: number;
+  danceability: number;
+  energy: number;
+  valence: number;
 };
 
 export type MoodPoint = {
@@ -24,14 +39,8 @@ export type TempoBin = {
   tracks: number;
 };
 
-export type SoundProfile = {
+export type SoundProfile = AudioFeatures & {
   genre: string;
-  danceability: number;
-  energy: number;
-  valence: number;
-  acousticness: number;
-  liveness: number;
-  speechiness: number;
 };
 
 export type Track = {
@@ -59,12 +68,15 @@ export type TrackFilters = {
   genre: string | null;
 };
 
-export type TrackDetails = Track & {
+export type TrackDetails = Track & AudioFeatures & {
   album: string | null;
   durationMs: number;
   explicit: boolean;
-  valence: number;
-  acousticness: number;
-  speechiness: number;
-  liveness: number;
+};
+
+export type GenreProfile = SoundProfile & {
+  tracks: number;
+  tempo: number;
+  popularity: number;
+  topTrack: Track | null;
 };

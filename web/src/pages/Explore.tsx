@@ -30,8 +30,15 @@ function buildTracksPath(filters: TrackFilters, page: number, sort: string) {
   return `/api/tracks?${params}`;
 }
 
-export function Explore() {
-  const [filters, setFilters] = useState<TrackFilters>(DEFAULT_FILTERS);
+type ExploreProps = {
+  initialGenre?: string | null;
+};
+
+export function Explore({ initialGenre = null }: ExploreProps) {
+  const [filters, setFilters] = useState<TrackFilters>({
+    ...DEFAULT_FILTERS,
+    genre: initialGenre,
+  });
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState('-danceability');
   const [selectedId, setSelectedId] = useState<string | null>(null);
